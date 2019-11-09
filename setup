@@ -1,0 +1,50 @@
+#!/bin/bash
+#===============================================================================
+# Setup for Hacktuite, If this is your first experience use this script first.
+#===============================================================================
+set -e
+
+#========================== VARS
+configure_archive="${HOME}/.config/hacktuite/hacktuite.conf"
+
+echo "Configure Directorys and archives in your Home..."
+# Create a directory
+if [[ ! -d "${HOME}/hacktuite" ]]; then
+    mkdir -vp "${HOME}/hacktuite/img" && echo "Directory ${HOME}/.hacktuite created."
+fi
+
+# Reconfigure perms
+chown -R "$USER" "${HOME}/hacktuite/"
+
+############################
+# Send Confs, bin and core
+############################
+if [[ -e "hacktuite.conf" ]]; then
+    mkdir "${HOME}/.config/hacktuite/"
+    cp -v hacktuite.conf "${HOME}/.config/hacktuite/"
+fi
+
+if [[ -e "hacktuite.sh" ]]; then
+    chmod +x "hacktuite.sh"
+    cp -v hacktuite.sh "${HOME}/hacktuite/"
+fi
+
+#################################
+# Configure new user and server
+#################################
+while true; do
+    read -p $'\nWhat is your nickname to use on your page.\n' nick
+    [[ -z "$nick" ]] && { echo "Nick Null..."; continue ;} || break
+done
+# Change nick
+sed -i "s/NICK=.*/NICK=\'$nick\'/" "$configure_archive"
+
+while true; do
+    read -p $'\nWhat server to use? We use Rsync by default. Example: Username@server.com\n' server
+    [[ -z "$server" ]] && { echo "Server Null..."; continue;} || break
+done
+# Change Server
+sed -i "s/SERVER=.*/SERVER=\'$server\'/" "$configure_archive"
+
+echo "Ok... Your hacktuite.conf configured, disponible on /etc/hacktuite.conf"
+echo "Now execute, hacktuite.sh"
