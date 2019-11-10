@@ -12,7 +12,7 @@ export main_archive="${HOME}/hacktuite"
 
 #===========================> LIBS
 # Load conf ;)
-source 'hacktuite.conf'
+source "${HOME}/.config/hacktuite/hacktuite.conf"
 
 ##########################
 # CORE FUNCTIONS
@@ -28,7 +28,7 @@ NEW_POST()
     if [[ -z "$post" ]]; then
         echo "Null Post? grrrrrt."
     fi
-    
+
     read -p "Add Image in your post? [y/N] " image_in_post
     image_in_post="${image_in_post,,}" # Lowercase
     # Active Key
@@ -49,21 +49,13 @@ NEW_POST()
     send_post="${send_post,,}" # lowercase
     if [[ "$send_post" = 'y' ]] || [[ -z "$send_post" ]]; then
         # Date of post
-        date_post="$(date "+%d/%b/%Y at %H:%M:%S")"
+        date_post="$(date "+%d/%b/%Y às %H:%M:%S")"
         # Image on Post?
         if [[ "$image" = 'on' ]]; then
             cp -v "$image_directory" "${main_archive}/img/"
-            # Capture only name of picture.
-            pushd "${main_archive}/img/" &>/dev/null
-            for cap in *; do
-                if [[ "$image_directory" =~ .*${cap}.* ]]; then
-                    image_directory="$cap"
-                fi
-            done
-            popd &>/dev/null
             # For sed
             pattern='<ul class="posts">' # Search pattern
-            thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
+            thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="${image_directory}"><img src="${image_directory}" class="image"></a></li>" # New post insert
 
             # Insert Post in html.
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"
