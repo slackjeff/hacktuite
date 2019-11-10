@@ -4,7 +4,7 @@
 # Jefferson 'Slackjeff' Rocha <root@slackjeff.com.br>
 #
 #HACKTuite
-# Static Microblog V.0.2
+# Static Microblog V.0.3
 #====================================================================|
 
 #======================> GLOBAL VARS
@@ -124,6 +124,8 @@ HEAD_HTML()
 <head>
 	<title>${NICK} $name</title>
 	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="favicon.jpg"/>
 	<style>
 		body{background-color: black; color: #00feb9; font-size: 1.1em; margin: 1%;}
 		.logo{color: #00feb9; border: 3px dotted; padding: 1%;}
