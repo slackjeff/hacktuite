@@ -16,3 +16,6 @@ HackTUITE was written for this purpose, fully decentralized and minimalist. You 
 ## Install 
 1. FOR INSTALL use '**setup**'
 2. Copy/Move script present in your HOME, (hacktuite.sh) to /usr/bin or /usr/local/bin.
+
+## Documentation
+Please acess [Github Wiki](https://github.com/slackjeff/hacktuite/wiki "Github Wiki")
