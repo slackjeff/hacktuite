@@ -53,9 +53,17 @@ NEW_POST()
         # Image on Post?
         if [[ "$image" = 'on' ]]; then
             cp -v "$image_directory" "${main_archive}/img/"
+            # Capture only name of picture.
+            pushd "${main_archive}/img/" &>/dev/null
+            for cap in *; do
+                if [[ "$image_directory" =~ .*${cap}.* ]]; then
+                    image_directory="$cap"
+                fi
+            done
+            popd &>/dev/null
             # For sed
             pattern='<ul class="posts">' # Search pattern
-            thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="${image_directory}"><img src="${image_directory}" class="image"></a></li>" # New post insert
+            t  thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
 
             # Insert Post in html.
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"
