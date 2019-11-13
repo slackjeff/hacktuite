@@ -19,9 +19,3 @@ HackTUITE was written for this purpose, fully decentralized and minimalist. You 
 
 ## Documentation
 Please acess [Github Wiki](https://github.com/slackjeff/hacktuite/wiki "Github Wiki")
-
-## Future implementations
-* Today hacktuite uses rsync to synchronize with the your server.
-A future implementation will be supported to synchronize with the git repository. This is if you are going to use github pages to host your hacktuite.
-* Post support video. (Still needs a future vote).
-* Instead of receiving only input via cat, if a key in .conf is enabled it will be possible to write the post with the user's favorite text editor.
