@@ -2,7 +2,6 @@
 #===============================================================================
 # Setup for Hacktuite, If this is your first experience use this script first.
 #===============================================================================
-set -e
 
 #========================== VARS
 configure_archive="${HOME}/.config/hacktuite/hacktuite.conf"
@@ -27,6 +26,10 @@ fi
 if [[ -e "hacktuite.sh" ]]; then
     chmod +x "hacktuite.sh"
     cp -v hacktuite.sh "${HOME}/hacktuite/"
+fi
+
+if [[ -e "favicon.jpg" ]]; then
+    cp -v favicon.jpg "${HOME}/hacktuite/"
 fi
 
 #################################

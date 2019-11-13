@@ -4,29 +4,37 @@
 # Jefferson 'Slackjeff' Rocha <root@slackjeff.com.br>
 #
 #HACKTuite
-# Static Microblog V.0.3
+# Static Microblog V.0.4
 #====================================================================|
 
 #======================> GLOBAL VARS
 export main_archive="${HOME}/hacktuite"
+export temp_archive="/tmp/temp_hacktuite_archive"
 
 #===========================> LIBS
 # Load conf ;)
 source "${HOME}/.config/hacktuite/hacktuite.conf"
 
+#===========================> TEST
+[[ -e "$temp_archive" ]] && rm "$temp_archive" # Clean trash file.
+
 ##########################
 # CORE FUNCTIONS
 ##########################
-
 # New post
 NEW_POST()
 {
     # Write post.
-    echo -e "\n\e[31;1mTYPE (ENTER) and (CTRL + D) FOR END OF FILE.\e[m"
-    post=$(cat > /tmp/temp_hacktuite_archive)
-    post=$(sed -z 's/\n/ /g' /tmp/temp_hacktuite_archive 2>/dev/null)
-    if [[ -z "$post" ]]; then
-        echo "Null Post? grrrrrt."
+    if [[ "$ENABLE_EDITOR" = '0' ]]; then
+        echo -e "\n\e[31;1mTYPE (ENTER) and (CTRL + D) FOR END OF FILE.\e[m"
+        post=$(cat > $temp_archive)
+        post=$(sed -z 's/\n/ /g' $temp_archive 2>/dev/null)
+        if [[ -z "$post" ]]; then
+            echo "Null Post? grrrrrt."
+        fi
+    else
+        "$MY_EDITOR" "$temp_archive"
+        post=$(sed -z 's/\n/ /g' $temp_archive 2>/dev/null)
     fi
 
     read -p "Add Image in your post? [y/N] " image_in_post
@@ -76,10 +84,16 @@ NEW_POST()
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"
         fi
 
+        # Need send to server or only local archives?
+        if [[ "$SEND_TO_SERVER" = '0' ]]; then
+           read -p "Your post has been sent successfully! [ENTER TO CONTINUE]"
+           return 0
+        fi
+
         # SEND FOR SERVER
         if rsync -avzh "$main_archive" "${SERVER}":public_html/; then
            read -p "Your post has been sent successfully! [ENTER TO CONTINUE]"
-            return 0
+           return 0
         else
             read -p "Your post has NOT been sent. Some error has occurred. [ENTER TO CONTINUE]"
             return 1
@@ -111,7 +125,10 @@ FOLLOWERS()
 
 }
 
+##############################
 ######### HTML
+##############################
+
 # The head of html ;)
 HEAD_HTML()
 {
@@ -124,11 +141,13 @@ HEAD_HTML()
 <head>
 	<title>${NICK} $name</title>
 	<meta charset="utf-8">
+    <meta name="description" content="Hacktuite, $NICK"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="favicon.jpg"/>
 	<style>
 		body{background-color: black; color: #00feb9; font-size: 1.1em; margin: 1%;}
 		.logo{color: #00feb9; border: 3px dotted; padding: 1%;}
+		.posts{margin-left: 1%; margin-right: 12%;}
         li{padding: 0.8%;}
         .image{width: 30%; border-style: dotted; margin: 2%;}
         a:link{color: #3df500;}
