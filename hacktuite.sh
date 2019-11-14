@@ -4,7 +4,7 @@
 # Jefferson 'Slackjeff' Rocha <root@slackjeff.com.br>
 #
 #HACKTuite
-# Static Microblog V.0.4
+# Static Microblog V.0.5
 #====================================================================|
 
 #======================> GLOBAL VARS
@@ -24,6 +24,7 @@ source "${HOME}/.config/hacktuite/hacktuite.conf"
 # New post
 NEW_POST()
 {
+
     # Write post.
     if [[ "$ENABLE_EDITOR" = '0' ]]; then
         echo -e "\n\e[31;1mTYPE (ENTER) and (CTRL + D) FOR END OF FILE.\e[m"
@@ -37,15 +38,31 @@ NEW_POST()
         post=$(sed -z 's/\n/ /g' $temp_archive 2>/dev/null)
     fi
 
-    read -p "Add Image in your post? [y/N] " image_in_post
-    image_in_post="${image_in_post,,}" # Lowercase
+    inc=0
+    for image_or_video in 'IMAGE' 'VIDEO' 'NO THKS'; do
+        inc=$(( inc + 1 ))
+        echo -e " (\e[31;1m$inc\e[m) $image_or_video"
+    done
+    read -p $'\nAdd IMAGE or VIDEO in your post? ' add_image_or_video
+    add_image_or_video="${add_image_or_video,,}" # Lowercase
     # Active Key
-    if [[ "$image_in_post" = 'y' ]]; then
+    if [[ "$add_image_or_video" = '1' ]]; then
         image="on"
         while true; do
             read -ep "Full image directory: " image_directory
             if [[ ! -e "$image_directory" ]]; then
                 echo "Image don't Exist."
+                continue
+            else
+                break
+            fi
+        done
+    elif [[ "$add_image_or_video" = '2' ]]; then
+        video="on"
+        while true; do
+            read -ep "Full Video directory: " video_directory
+            if [[ ! -e "$video_directory" ]]; then
+                echo "Video don't Exist."
                 continue
             else
                 break
@@ -58,6 +75,7 @@ NEW_POST()
     if [[ "$send_post" = 'y' ]] || [[ -z "$send_post" ]]; then
         # Date of post
         date_post="$(date "+%d/%b/%Y às %H:%M:%S")"
+
         # Image on Post?
         if [[ "$image" = 'on' ]]; then
             cp -v "$image_directory" "${main_archive}/img/"
@@ -71,10 +89,25 @@ NEW_POST()
             popd &>/dev/null
             # For sed
             pattern='<ul class="posts">' # Search pattern
-            t  thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
-
+            thepost="<li>(<b>${date_post}</b>): ${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
             # Insert Post in html.
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"
+        # Video on post
+        elif [[ "$video" = 'on' ]]; then # 
+            cp -v "$video_directory" "${main_archive}/video/"
+            # Capture only name of video.
+            pushd "${main_archive}/video/" &>/dev/null
+            for cap in *; do
+                if [[ "$video_directory" =~ .*${cap}.* ]]; then
+                    video_directory="$cap"
+                fi
+            done
+            popd &>/dev/null
+            # For sed
+            pattern='<ul class="posts">' # Search pattern
+            thepost="<li>(<b>${date_post}</b>): ${post}<br><video controls width="50%" height="20%" class=\'video\'><source src="video/${cap}" type="video/mp4"></video></li>"
+            # Insert Post in html.
+            sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"          
         else
             # For sed
             pattern='<ul class="posts">' # Search pattern
@@ -150,6 +183,7 @@ HEAD_HTML()
 		.posts{margin-left: 1%; margin-right: 12%;}
         li{padding: 0.8%;}
         .image{width: 30%; border-style: dotted; margin: 2%;}
+        .video{border-style: dotted; margin: 2%;}
         a:link{color: #3df500;}
         a:visited{color: #3df500;}
 	</style>

@@ -9,7 +9,7 @@ configure_archive="${HOME}/.config/hacktuite/hacktuite.conf"
 echo "Configure Directorys and archives in your Home..."
 # Create a directory
 if [[ ! -d "${HOME}/hacktuite" ]]; then
-    mkdir -vp "${HOME}/hacktuite/img" && echo "Directory ${HOME}/.hacktuite created."
+    mkdir -vp "${HOME}/hacktuite/{img,video}" && echo "Directory ${HOME}/.hacktuite created."
 fi
 
 # Reconfigure perms
