@@ -19,3 +19,6 @@ HackTUITE was written for this purpose, fully decentralized and minimalist. You 
 
 ## Documentation
 Please acess [Github Wiki](https://github.com/slackjeff/hacktuite/wiki "Github Wiki")
+
+## Hacktuite List
+If you created your hacktuite, send an issue with your nick + url, to put it here!
