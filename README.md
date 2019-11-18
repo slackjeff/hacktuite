@@ -22,3 +22,4 @@ Please acess [Github Wiki](https://github.com/slackjeff/hacktuite/wiki "Github W
 
 ## Hacktuite List
 If you created your hacktuite, send an issue with your nick + url, to put it here!
+[List](https://github.com/slackjeff/hacktuite/issues/2 "Put here")
