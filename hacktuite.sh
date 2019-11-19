@@ -105,7 +105,7 @@ NEW_POST()
             popd &>/dev/null
             # For sed
             pattern='<ul class="posts">' # Search pattern
-            thepost="<li>(<b>${date_post}</b>): ${post}<br><video controls width="50%" height="20%" class=\'video\'><source src="video/${cap}" type="video/mp4"></video></li>"
+            thepost="<li>(<b>${date_post}</b>): ${post}<br><video controls width="80%" maxwidth="100%" height="20%" class=\'video\'><source src="video/${cap}" type="video/mp4"></video></li>"
             # Insert Post in html.
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"          
         else
@@ -178,11 +178,11 @@ HEAD_HTML()
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="favicon.jpg"/>
 	<style>
-		body{background-color: black; color: #00feb9; font-size: 1.1em; margin: 1%;}
+		body{background-color: black; color: #00feb9; font-size: 1.2em; margin: 1%;}
 		.logo{color: #00feb9; border: 3px dotted; padding: 1%;}
 		.posts{margin-left: 1%; margin-right: 12%;}
         li{padding: 0.8%;}
-        .image{width: 30%; border-style: dotted; margin: 2%;}
+        .image{width: 60%; border-style: dotted; margin: 2%;}
         .video{border-style: dotted; margin: 2%;}
         a:link{color: #3df500;}
         a:visited{color: #3df500;}
