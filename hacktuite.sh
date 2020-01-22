@@ -13,7 +13,7 @@ export temp_archive="/tmp/temp_hacktuite_archive"
 
 #===========================> LIBS
 # Load conf ;)
-source "${HOME}/.config/hacktuite/hacktuite.conf"
+source "${HOME}/hacktuite/hacktuite.conf"
 
 #===========================> TEST
 [[ -e "$temp_archive" ]] && rm "$temp_archive" # Clean trash file.
