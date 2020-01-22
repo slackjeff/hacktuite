@@ -4,7 +4,7 @@
 #===============================================================================
 
 #========================== VARS
-configure_archive="${HOME}/.config/hacktuite/hacktuite.conf"
+configure_archive="${HOME}/hacktuite/hacktuite.conf"
 
 echo "Configure Directorys and archives in your Home..."
 # Create a directory
@@ -19,8 +19,7 @@ chown -R "$USER" "${HOME}/hacktuite/"
 # Send Confs, bin and core
 ############################
 if [[ -e "hacktuite.conf" ]]; then
-    mkdir "${HOME}/.config/hacktuite/"
-    cp -v hacktuite.conf "${HOME}/.config/hacktuite/"
+    cp -v hacktuite.conf "${HOME}/hacktuite/"
 fi
 
 if [[ -e "hacktuite.sh" ]]; then
