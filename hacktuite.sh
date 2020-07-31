@@ -74,7 +74,7 @@ NEW_POST()
     send_post="${send_post,,}" # lowercase
     if [[ "$send_post" = 'y' ]] || [[ -z "$send_post" ]]; then
         # Date of post
-        date_post="$(date "+%d/%b/%Y às %H:%M:%S")"
+        date_post="$(date "+%d/%B/%Y at %H:%M:%S")"
 
         # Image on Post?
         if [[ "$image" = 'on' ]]; then
@@ -89,7 +89,7 @@ NEW_POST()
             popd &>/dev/null
             # For sed
             pattern='<ul class="posts">' # Search pattern
-            thepost="<li>(<b class="date">${date_post}</b>): ${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
+            thepost="<li>(<b class="date">${date_post}</b>)<br><br>${post}<br><a href="img/${image_directory}"><img src="img/${image_directory}" class="image"></a></li>" # New post insert
             # Insert Post in html.
             sed -i "/^${pattern}.*/a \\\t${thepost}" "${main_archive}/index.html"
         # Video on post
@@ -173,27 +173,28 @@ HEAD_HTML()
 <html lang="pt-br">
 <head>
 	<title>${NICK} $name</title>
-	<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="author" content="hacktuite co."/>
+    <meta name="description" content="hacktuite The TRUE Decentralized Static Microblog.">
+    <meta name="keywords" content="microblog, shell, hacktuite">
     <meta name="description" content="Hacktuite, $NICK"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="favicon.jpg"/>
-	<style>
-		body{background-color: black; color: #00feb9; font-size: 1.1em; margin: 1%;}
-		.logo{color: #00feb9; border: 3px dotted; padding: 1%;}
-        .posts{margin-right: 2%;}
-        li{padding: 2%;}
-        .image{width: 30%; border-style: dotted; margin: 2%;}
-        .video{border-style: dotted; margin: 2%;}
-        .date{color: white;}
-        a:link{color: #3df500;}
-        a:visited{color: #3df500;}
+    <style>
+        body {background-color: white; color: black; font-family: sans-serif; font-size: 1.2em; max-width: 40em; margin-left: auto; margin-right: auto;}
+        .logo {color: black; border: 3px dotted; padding: 1%;}
+        ul>li{list-style: none;padding: 2%; background-color: #d6d6d6; margin: 3%;}
+        li {}
+        .image{max-width: 90%; margin-top: 4%; margin-bottom: 2%;}
+        .video{max-width: 90%; margin: 2%;}
+
         @media screen and (max-device-width: 480px) {
             body {font-size: 135%;}
-            .logo{font-size: 60%;}
+            .logo{font-size: 10px;}
             .image{width: 100%;}
             .video{width: 100%;}
         }
-	</style>
+    </style>
 </head>
 <body>
 EOF
